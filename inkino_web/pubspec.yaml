@@ -1,0 +1,27 @@
+name: inkino_web
+description: A multiplatform movie browsing app built with Flutter and AngularDart style for web.
+version: 1.0.0
+
+environment:
+  sdk: ">=2.17.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  http: ^1.1.0
+  google_fonts: ^6.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/avatar.jpg
+    - assets/images/movie1.jpg
+    - assets/images/movie2.jpg
+    - assets/images/movie3.jpg
+    - assets/images/movie4.jpg
