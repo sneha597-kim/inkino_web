@@ -3,147 +3,133 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>inKino – Movie Explorer</title>
+  <title>inKino – Movie Browser</title>
 
   <style>
-    /* ======== BASIC RESET ======== */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    /* ===== GLOBAL STYLES ===== */
     body {
-      font-family: 'Poppins', sans-serif;
-      background: #0b0c10;
-      color: #fff;
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background-color: #0d1117;
+      color: #f0f6fc;
     }
 
-    /* ======== HEADER ======== */
     header {
-      background: #1f2833;
-      padding: 20px;
+      background: #161b22;
+      padding: 15px 30px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
+      justify-content: space-between;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
     }
 
     header h1 {
-      color: #66fcf1;
-      font-size: 28px;
+      font-size: 1.8rem;
+      color: #58a6ff;
+      margin: 0;
     }
 
     nav a {
-      color: #c5c6c7;
-      margin-left: 20px;
+      color: #f0f6fc;
       text-decoration: none;
+      margin: 0 15px;
       font-weight: 500;
-      transition: color 0.3s ease;
     }
 
-    nav a:hover {
-      color: #66fcf1;
-    }
+    nav a:hover { color: #58a6ff; }
 
-    /* ======== MAIN SECTION ======== */
-    main {
-      padding: 40px 20px;
+    /* ===== MOVIE GRID ===== */
+    .container {
+      padding: 30px;
     }
 
     .movie-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 25px;
-      justify-content: center;
     }
 
     .movie-card {
-      background: #1f2833;
+      background: #161b22;
       border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
       overflow: hidden;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
-      text-align: center;
     }
 
     .movie-card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(102, 252, 241, 0.3);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.5);
     }
 
     .movie-card img {
       width: 100%;
-      height: 350px;
+      height: 300px;
       object-fit: cover;
     }
 
     .movie-card h3 {
-      color: #66fcf1;
-      margin: 15px 0 5px;
+      margin: 10px;
+      color: #58a6ff;
+      font-size: 1.2rem;
     }
 
     .movie-card p {
-      color: #c5c6c7;
-      margin-bottom: 10px;
+      margin: 0 10px 10px;
+      color: #c9d1d9;
+      font-size: 0.9rem;
     }
 
     footer {
       text-align: center;
-      padding: 20px;
-      background: #1f2833;
-      color: #c5c6c7;
-      font-size: 14px;
+      padding: 15px;
+      background: #161b22;
+      color: #8b949e;
       margin-top: 40px;
+      font-size: 0.8rem;
     }
   </style>
 </head>
-
 <body>
   <header>
     <h1>🎬 inKino</h1>
     <nav>
-      <a href="#">Home</a>
       <a href="#">Now Showing</a>
       <a href="#">Upcoming</a>
-      <a href="#">Contact</a>
+      <a href="#">Top Rated</a>
+      <a href="#">About</a>
     </nav>
   </header>
 
-  <main>
-    <section class="movie-grid" id="movieGrid">
-      <!-- Movie cards will appear here -->
-    </section>
-  </main>
+  <div class="container">
+    <h2>Now Showing</h2>
+    <div id="movieGrid" class="movie-grid"></div>
+  </div>
 
   <footer>
-    © 2025 inKino | Movie Explorer
+    © 2025 inKino | Powered by Flutter Web Design Concept
   </footer>
 
- <script>
-  // ======== MOVIE DATA ========
-  const movies = [
-    { title: "The Lost Galaxy", genre: "Sci-Fi", time: "6:30 PM", img: "../assets/images/movie1.jpg" },
-    { title: "City Lights", genre: "Drama", time: "8:00 PM", img: "../assets/images/movie2.jpg" },
-    { title: "Hidden Truths", genre: "Thriller", time: "9:15 PM", img: "../assets/images/movie3.jpg" },
-    { title: "Laughing Streets", genre: "Comedy", time: "5:45 PM", img: "../assets/images/movie4.jpg" }
-  ];
+  <script>
+    const movies = [
+      { title: "The Lost Galaxy", genre: "Sci-Fi", time: "6:30 PM", img: "../assets/images/movie1.jpg" },
+      { title: "City Lights", genre: "Drama", time: "8:00 PM", img: "../assets/images/movie2.jpg" },
+      { title: "Hidden Truths", genre: "Thriller", time: "9:15 PM", img: "../assets/images/movie3.jpg" },
+      { title: "Laughing Streets", genre: "Comedy", time: "5:45 PM", img: "../assets/images/movie4.jpg" }
+    ];
 
-  // ======== RENDER MOVIES ========
-  const movieGrid = document.getElementById("movieGrid");
-
-  movies.forEach(movie => {
-    const card = document.createElement("div");
-    card.className = "movie-card";
-    card.innerHTML = `
-      <img src="${movie.img}" alt="${movie.title}">
-      <h3>${movie.title}</h3>
-      <p>Genre: ${movie.genre}</p>
-      <p>Showtime: ${movie.time}</p>
-    `;
-    movieGrid.appendChild(card);
-  });
-</script>
+    const movieGrid = document.getElementById("movieGrid");
+    movies.forEach(movie => {
+      const card = document.createElement("div");
+      card.className = "movie-card";
+      card.innerHTML = `
+        <img src="${movie.img}" alt="${movie.title}">
+        <h3>${movie.title}</h3>
+        <p>Genre: ${movie.genre}</p>
+        <p>Showtime: ${movie.time}</p>
+      `;
+      movieGrid.appendChild(card);
+    });
+  </script>
 </body>
 </html>
-
