@@ -27,6 +27,9 @@
       font-size: 1.8rem;
       color: #58a6ff;
       margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     nav a {
@@ -36,13 +39,20 @@
       font-weight: 500;
     }
 
-    nav a:hover { color: #58a6ff; }
+    nav a:hover {
+      color: #58a6ff;
+    }
 
-    /* ===== MOVIE GRID ===== */
     .container {
       padding: 30px;
     }
 
+    h2 {
+      color: #f0f6fc;
+      margin-bottom: 15px;
+    }
+
+    /* ===== MOVIE GRID ===== */
     .movie-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -88,64 +98,116 @@
       margin-top: 40px;
       font-size: 0.8rem;
     }
+
+    /* ===== HIDE SECTIONS ===== */
+    .section { display: none; }
+    .active-section { display: block; }
+
+    /* ===== SEARCH & FILTER ===== */
+    .filters {
+      margin-bottom:20px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:15px;
+    }
+
+    .filters input, .filters select {
+      padding:10px;
+      border-radius:8px;
+      border:none;
+      font-size:1rem;
+    }
   </style>
 </head>
 <body>
   <header>
     <h1>🎬 inKino</h1>
     <nav>
-      <a href="#">Now Showing</a>
-      <a href="#">Upcoming</a>
-      <a href="#">Top Rated</a>
-      <a href="#">About</a>
+      <a href="#" data-target="nowShowing">Now Showing</a>
+      <a href="#" data-target="upcoming">Upcoming</a>
+      <a href="#" data-target="topRated">Top Rated</a>
+      <a href="#" data-target="about">About</a>
     </nav>
   </header>
 
-  <div class="container">
+  <!-- ===== NOW SHOWING ===== -->
+  <div id="nowShowing" class="container section active-section">
     <h2>Now Showing</h2>
 
-    <!-- Search and Filter Section -->
-    <div style="margin-bottom:20px; display:flex; flex-wrap:wrap; gap:15px;">
-      <input 
-        id="searchInput" 
-        type="text" 
-        placeholder="Search for a movie..." 
-        style="flex:1; padding:10px; border-radius:8px; border:none; font-size:1rem;"
-      >
-      <select id="genreFilter" style="padding:10px; border-radius:8px; border:none; font-size:1rem;">
+    <div class="filters">
+      <input id="searchInput" type="text" placeholder="Search for a movie..." />
+      <select id="genreFilter">
         <option value="all">All Genres</option>
         <option value="Sci-Fi">Sci-Fi</option>
         <option value="Drama">Drama</option>
         <option value="Thriller">Thriller</option>
         <option value="Comedy">Comedy</option>
+        <option value="Action">Action</option>
+        <option value="Romance">Romance</option>
       </select>
     </div>
 
-    <!-- Movie Grid -->
     <div id="movieGrid" class="movie-grid"></div>
   </div>
 
+  <!-- ===== UPCOMING ===== -->
+  <div id="upcoming" class="container section">
+    <h2>Upcoming Movies</h2>
+    <div class="movie-grid" id="upcomingGrid"></div>
+  </div>
+
+  <!-- ===== TOP RATED ===== -->
+  <div id="topRated" class="container section">
+    <h2>Top Rated</h2>
+    <div class="movie-grid" id="topRatedGrid"></div>
+  </div>
+
+  <!-- ===== ABOUT ===== -->
+  <div id="about" class="container section">
+    <h2>About inKino</h2>
+    <p>
+      inKino is a multiplatform movie browsing app that helps users explore
+      films, showtimes, and genres seamlessly. Built as a modern web project,
+      it offers a clean UI and a cinema-inspired feel.
+    </p>
+  </div>
+
   <footer>
-    © 2025 inKino | Powered by Flutter Web Design Concept
+    © 2025 inKino | Designed for Web Movie Experience
   </footer>
 
   <script>
+    // Movie Data
     const movies = [
       { title: "The Lost Galaxy", genre: "Sci-Fi", time: "6:30 PM", img: "../assets/images/movie1.jpg" },
       { title: "City Lights", genre: "Drama", time: "8:00 PM", img: "../assets/images/movie2.jpg" },
       { title: "Hidden Truths", genre: "Thriller", time: "9:15 PM", img: "../assets/images/movie3.jpg" },
-      { title: "Laughing Streets", genre: "Comedy", time: "5:45 PM", img: "../assets/images/movie4.jpg" }
+      { title: "Laughing Streets", genre: "Comedy", time: "5:45 PM", img: "../assets/images/movie4.jpg" },
+      { title: "Echoes of Tomorrow", genre: "Mystery", time: "7:00 PM", img: "../assets/images/movie5.jpg" },
+      { title: "Blazing Horizon", genre: "Action", time: "9:00 PM", img: "../assets/images/movie6.jpg" },
+      { title: "Love Algorithm", genre: "Romance", time: "8:30 PM", img: "../assets/images/movie7.jpg" }
     ];
 
+    const upcoming = [
+      { title: "Ocean Depths", genre: "Adventure", time: "Coming Soon", img: "../assets/images/upcoming1.jpg" },
+      { title: "Crimson Sky", genre: "Thriller", time: "Coming Soon", img: "../assets/images/upcoming2.jpg" }
+    ];
+
+    const topRated = [
+      { title: "Silent Whispers", genre: "Drama", time: "8:00 PM", img: "../assets/images/top1.jpg" },
+      { title: "Neon Pulse", genre: "Action", time: "10:00 PM", img: "../assets/images/top2.jpg" }
+    ];
+
+    // DOM Elements
     const movieGrid = document.getElementById("movieGrid");
     const searchInput = document.getElementById("searchInput");
     const genreFilter = document.getElementById("genreFilter");
 
-    function renderMovies(filterText = "", genre = "all") {
-      movieGrid.innerHTML = "";
-      movies
-        .filter(m => 
-          (genre === "all" || m.genre === genre) && 
+    function renderMovies(list, grid, filterText = "", genre = "all") {
+      grid.innerHTML = "";
+      list
+        .filter(m =>
+          (genre === "all" || m.genre === genre) &&
           m.title.toLowerCase().includes(filterText.toLowerCase())
         )
         .forEach(movie => {
@@ -157,20 +219,36 @@
             <p>Genre: ${movie.genre}</p>
             <p>Showtime: ${movie.time}</p>
           `;
-          movieGrid.appendChild(card);
+          grid.appendChild(card);
         });
     }
 
     searchInput.addEventListener("input", () => {
-      renderMovies(searchInput.value, genreFilter.value);
+      renderMovies(movies, movieGrid, searchInput.value, genreFilter.value);
     });
 
     genreFilter.addEventListener("change", () => {
-      renderMovies(searchInput.value, genreFilter.value);
+      renderMovies(movies, movieGrid, searchInput.value, genreFilter.value);
     });
 
     // Initial render
-    renderMovies();
+    renderMovies(movies, movieGrid);
+    renderMovies(upcoming, document.getElementById("upcomingGrid"));
+    renderMovies(topRated, document.getElementById("topRatedGrid"));
+
+    // ===== NAVIGATION LOGIC =====
+    const navLinks = document.querySelectorAll("nav a");
+    const sections = document.querySelectorAll(".section");
+
+    navLinks.forEach(link => {
+      link.addEventListener("click", e => {
+        e.preventDefault();
+        const targetId = link.getAttribute("data-target");
+
+        sections.forEach(sec => sec.classList.remove("active-section"));
+        document.getElementById(targetId).classList.add("active-section");
+      });
+    });
   </script>
 </body>
 </html>
