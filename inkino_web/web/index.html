@@ -103,6 +103,25 @@
 
   <div class="container">
     <h2>Now Showing</h2>
+
+    <!-- Search and Filter Section -->
+    <div style="margin-bottom:20px; display:flex; flex-wrap:wrap; gap:15px;">
+      <input 
+        id="searchInput" 
+        type="text" 
+        placeholder="Search for a movie..." 
+        style="flex:1; padding:10px; border-radius:8px; border:none; font-size:1rem;"
+      >
+      <select id="genreFilter" style="padding:10px; border-radius:8px; border:none; font-size:1rem;">
+        <option value="all">All Genres</option>
+        <option value="Sci-Fi">Sci-Fi</option>
+        <option value="Drama">Drama</option>
+        <option value="Thriller">Thriller</option>
+        <option value="Comedy">Comedy</option>
+      </select>
+    </div>
+
+    <!-- Movie Grid -->
     <div id="movieGrid" class="movie-grid"></div>
   </div>
 
@@ -119,17 +138,39 @@
     ];
 
     const movieGrid = document.getElementById("movieGrid");
-    movies.forEach(movie => {
-      const card = document.createElement("div");
-      card.className = "movie-card";
-      card.innerHTML = `
-        <img src="${movie.img}" alt="${movie.title}">
-        <h3>${movie.title}</h3>
-        <p>Genre: ${movie.genre}</p>
-        <p>Showtime: ${movie.time}</p>
-      `;
-      movieGrid.appendChild(card);
+    const searchInput = document.getElementById("searchInput");
+    const genreFilter = document.getElementById("genreFilter");
+
+    function renderMovies(filterText = "", genre = "all") {
+      movieGrid.innerHTML = "";
+      movies
+        .filter(m => 
+          (genre === "all" || m.genre === genre) && 
+          m.title.toLowerCase().includes(filterText.toLowerCase())
+        )
+        .forEach(movie => {
+          const card = document.createElement("div");
+          card.className = "movie-card";
+          card.innerHTML = `
+            <img src="${movie.img}" alt="${movie.title}">
+            <h3>${movie.title}</h3>
+            <p>Genre: ${movie.genre}</p>
+            <p>Showtime: ${movie.time}</p>
+          `;
+          movieGrid.appendChild(card);
+        });
+    }
+
+    searchInput.addEventListener("input", () => {
+      renderMovies(searchInput.value, genreFilter.value);
     });
+
+    genreFilter.addEventListener("change", () => {
+      renderMovies(searchInput.value, genreFilter.value);
+    });
+
+    // Initial render
+    renderMovies();
   </script>
 </body>
 </html>
