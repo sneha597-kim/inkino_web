@@ -120,29 +120,30 @@
     © 2025 inKino | Movie Explorer
   </footer>
 
-  <script>
-    // ======== MOVIE DATA ========
-    const movies = [
-      { title: "The Lost Galaxy", genre: "Sci-Fi", time: "6:30 PM", img: "assets/images/movie1.jpg" },
-      { title: "City Lights", genre: "Drama", time: "8:00 PM", img: "assets/images/movie2.jpg" },
-      { title: "Hidden Truths", genre: "Thriller", time: "9:15 PM", img: "assets/images/movie3.jpg" },
-      { title: "Laughing Streets", genre: "Comedy", time: "5:45 PM", img: "assets/images/movie4.jpg" }
-    ];
+ <script>
+  // ======== MOVIE DATA ========
+  const movies = [
+    { title: "The Lost Galaxy", genre: "Sci-Fi", time: "6:30 PM", img: "../assets/images/movie1.jpg" },
+    { title: "City Lights", genre: "Drama", time: "8:00 PM", img: "../assets/images/movie2.jpg" },
+    { title: "Hidden Truths", genre: "Thriller", time: "9:15 PM", img: "../assets/images/movie3.jpg" },
+    { title: "Laughing Streets", genre: "Comedy", time: "5:45 PM", img: "../assets/images/movie4.jpg" }
+  ];
 
-    // ======== RENDER MOVIES ========
-    const movieGrid = document.getElementById("movieGrid");
+  // ======== RENDER MOVIES ========
+  const movieGrid = document.getElementById("movieGrid");
 
-    movies.forEach(movie => {
-      const card = document.createElement("div");
-      card.className = "movie-card";
-      card.innerHTML = `
-        <img src="${movie.img}" alt="${movie.title}">
-        <h3>${movie.title}</h3>
-        <p>Genre: ${movie.genre}</p>
-        <p>Showtime: ${movie.time}</p>
-      `;
-      movieGrid.appendChild(card);
-    });
-  </script>
+  movies.forEach(movie => {
+    const card = document.createElement("div");
+    card.className = "movie-card";
+    card.innerHTML = `
+      <img src="${movie.img}" alt="${movie.title}">
+      <h3>${movie.title}</h3>
+      <p>Genre: ${movie.genre}</p>
+      <p>Showtime: ${movie.time}</p>
+    `;
+    movieGrid.appendChild(card);
+  });
+</script>
 </body>
 </html>
+
